@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
+const port = 9090;
 
 const app = express();
 app.use(cors());
@@ -29,6 +30,6 @@ app.get('/average', (req, res)=>{
     })
 });
 
-app.listen(8081, ()=>{
-    console.log('app running on port ', 8081)
+app.listen(port, ()=>{
+    console.log('app running on port ', port)
 })
