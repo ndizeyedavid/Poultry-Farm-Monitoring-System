@@ -32,18 +32,19 @@ const App1 = () => {
       result.json()
         .then(data => {
           const new_index = data.length - 1;
-          setTemp(data[new_index].value1)
+          // console.log(data[new_index])
+          setTemp(data[new_index].temperature)
 
           if (arr.length > 500) {
             arr = arr.slice(300); // Remove the first element
           }
 
-          arr.push(data[new_index].value1);
+          arr.push(data[new_index].temperature);
           setGra(arr);
 
-          setHumidity(data[new_index].value2)
-          setCo(data[new_index].value3)
-          setAmmonia('2');
+          setHumidity(data[new_index].humidity)
+          setCo(data[new_index].gaz)
+          // setAmmonia('2');   
         })
         .catch(err => console.log(err))
 
@@ -55,9 +56,10 @@ const App1 = () => {
       result.json()
         .then(data => {
           const new_index = data.length - 1;
-          setTempPercent(data[new_index].value1)
-          setHumidityPercent(data[new_index].value2)
-          setCoPercent(data[new_index].value3)
+          setTempPercent(data[new_index].temperature)
+          setHumidityPercent(data[new_index].humidity)
+          setCoPercent(data[new_index].ammonia)
+          // console.log(data[new_index].am)
           setAmmoniaPercent('2');
         })
         .catch(err => console.log(err))
@@ -81,26 +83,26 @@ const App1 = () => {
         <App2 />
       </div>
 
-      <div className="bg-slate-200 flex items-center flex-col py-5 px-32 justify-center">
+      <div className="flex flex-col items-center justify-center px-32 py-5 bg-slate-200">
 
-        <div role="tablist" className="tabs tabs-boxed my-5">
+        <div role="tablist" className="my-5 tabs tabs-boxed">
           {tab == 'controls' ? <><a role="tab" className="tab tab-active">Controls</a><a role="tab" className="tab" onClick={() => SetTab('graph')}>Graph</a></> : <><a role="tab" className="tab" onClick={() => SetTab('controls')}>Controls</a><a role="tab" className="tab tab-active">Graph</a></>}
         </div>
 
 
         {tab == 'controls' ?
-          <div className="artboard bg-white rounded-xl px-7 h-full">
+          <div className="h-full bg-white artboard rounded-xl px-7">
             <Title />
-            <h3 className="text-3xl ml-7 font-bold">Monitoring</h3>
-            <div className="flex flex-row gap-7 my-8">
+            <h3 className="text-3xl font-bold ml-7">Monitoring</h3>
+            <div className="flex flex-row my-8 gap-7">
               <Monitoring text="Temperature" value={temp + "°C"} percent={tempPercent} />
               <Monitoring text="Humidity" value={humidity + "%"} percent={humidityPercent} />
               <Monitoring text="CO2 Level" value={co + "ppm"} percent={coPercent} />
-              <Monitoring text="Ammonia Level" value={ammonia + "ppm"} percent={ammoniaPercent} />
+              {/* <Monitoring text="Ammonia Level" value={ammonia + "ppm"} percent={ammoniaPercent} /> */}
             </div>
 
-            <h3 className="text-3xl ml-7 font-bold">Controls</h3>
-            <div className="flex flex-row gap-7 my-8">
+            <h3 className="text-3xl font-bold ml-7">Controls</h3>
+            <div className="flex flex-row my-8 gap-7">
               <Control text="Fan Control" />
               <Control text="Buzzer Control" />
               <Control text="LED Control" />
@@ -111,10 +113,10 @@ const App1 = () => {
 
           :
 
-          <div className="artboard bg-white rounded-xl px-7 h-full">
+          <div className="h-full bg-white artboard rounded-xl px-7">
             <Title />
-            <h3 className="text-3xl ml-7 font-bold">Temperatures (History)</h3>
-            {/* <div className="flex flex-row gap-7 my-8"> */}
+            <h3 className="text-3xl font-bold ml-7">Temperatures (History)</h3>
+            {/* <div className="flex flex-row my-8 gap-7"> */}
             <Chart tempData={gra} />
             {/* </div> */}
 
