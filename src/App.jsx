@@ -28,7 +28,7 @@ const App1 = () => {
   let arr = [];
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch('http://localhost:8081/data')
+      const result = await fetch('https://poultry-backend-gmve.onrender.com/data')
       result.json()
         .then(data => {
           const new_index = data.length - 1;
@@ -52,14 +52,14 @@ const App1 = () => {
     }
 
     const averageData = async () => {
-      const result = await fetch('http://localhost:8081/average')
+      const result = await fetch('https://poultry-backend-gmve.onrender.com/average')
       result.json()
         .then(data => {
           const new_index = data.length - 1;
           setTempPercent(data[new_index].temperature)
           setHumidityPercent(data[new_index].humidity)
           setCoPercent(data[new_index].ammonia)
-          // console.log(data[new_index].am)
+          // console.log(data[new_index.am)
           setAmmoniaPercent('2');
         })
         .catch(err => console.log(err))
@@ -97,18 +97,9 @@ const App1 = () => {
             <div className="flex flex-row my-8 gap-7">
               <Monitoring text="Temperature" value={temp + "°C"} percent={tempPercent} />
               <Monitoring text="Humidity" value={humidity + "%"} percent={humidityPercent} />
-              <Monitoring text="CO2 Level" value={co + "ppm"} percent={coPercent} />
+              <Monitoring text="Air Quality" value={co + "ppm"} percent={coPercent} />
               {/* <Monitoring text="Ammonia Level" value={ammonia + "ppm"} percent={ammoniaPercent} /> */}
             </div>
-
-            <h3 className="text-3xl font-bold ml-7">Controls</h3>
-            <div className="flex flex-row my-8 gap-7">
-              <Control text="Fan Control" />
-              <Control text="Buzzer Control" />
-              <Control text="LED Control" />
-            </div>
-
-
           </div>
 
           :
