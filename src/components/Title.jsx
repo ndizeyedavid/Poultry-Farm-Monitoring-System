@@ -1,7 +1,7 @@
 const Title = () => {
     return (
         <div>
-            <h1 className="text-center text-4xl font-bold text-blue-600 my-8">Poultry Farm Monitoring System</h1>
+            <h1 className="my-8 text-4xl font-bold text-center text-blue-600">Office Monitoring System</h1>
         </div>
     )
 }
