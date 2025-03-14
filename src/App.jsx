@@ -7,12 +7,14 @@ import Chart from "./components/Chart"
 import App2 from "./App2"
 import { useEffect, useState } from "react"
 import { data } from "autoprefixer"
+import PredictionContainer from "./components/PredictionContainer"
 if (localStorage.getItem('auth') == null) {
   localStorage.setItem('auth', false);
 }
 const App1 = () => {
 
   // normal Data
+  const [allData, setAllData] = useState([]);
   const [temp, setTemp] = useState(0);
   const [humidity, setHumidity] = useState(0);
   const [co, setCo] = useState(0);
@@ -28,11 +30,12 @@ const App1 = () => {
   let arr = [];
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch('https://poultry-backend-gmve.onrender.com/data')
+      const result = await fetch(import.meta.env.VITE_BACKEND_URL + '/data')
       result.json()
         .then(data => {
           const new_index = data.length - 1;
           // console.log(data[new_index])
+          setAllData(data);
           setTemp(data[new_index].temperature)
 
           if (arr.length > 500) {
@@ -52,7 +55,7 @@ const App1 = () => {
     }
 
     const averageData = async () => {
-      const result = await fetch('https://poultry-backend-gmve.onrender.com/average')
+      const result = await fetch(import.meta.env.VITE_BACKEND_URL + '/average')
       result.json()
         .then(data => {
           const new_index = data.length - 1;
@@ -86,7 +89,25 @@ const App1 = () => {
       <div className="flex flex-col items-center justify-center px-32 py-5 bg-slate-200">
 
         <div role="tablist" className="my-5 tabs tabs-boxed">
-          {tab == 'controls' ? <><a role="tab" className="tab tab-active">Controls</a><a role="tab" className="tab" onClick={() => SetTab('graph')}>Graph</a></> : <><a role="tab" className="tab" onClick={() => SetTab('controls')}>Controls</a><a role="tab" className="tab tab-active">Graph</a></>}
+          {tab == 'controls' ?
+            <>
+              <a role="tab" className="tab tab-active">Controls</a>
+              <a role="tab" className="tab" onClick={() => SetTab('graph')}>Graph</a>
+              <a role="tab" className="tab" onClick={() => SetTab('prediction')}>Prediction</a>
+            </>
+            : tab == 'graph' ?
+              <>
+                <a role="tab" className="tab" onClick={() => SetTab('controls')}>Controls</a>
+                <a role="tab" className="tab tab-active">Graph</a>
+                <a role="tab" className="tab" onClick={() => SetTab('prediction')}>Prediction</a>
+              </>
+              :
+              <>
+                <a role="tab" className="tab" onClick={() => SetTab('controls')}>Controls</a>
+                <a role="tab" className="tab" onClick={() => SetTab('graph')}>Graph</a>
+                <a role="tab" className="tab tab-active">Prediction</a>
+              </>
+          }
         </div>
 
 
@@ -102,17 +123,19 @@ const App1 = () => {
             </div>
           </div>
 
-          :
+          : tab == "graph" ?
 
-          <div className="h-full bg-white artboard rounded-xl px-7">
-            <Title />
-            <h3 className="text-3xl font-bold ml-7">Temperatures (History)</h3>
-            {/* <div className="flex flex-row my-8 gap-7"> */}
-            <Chart tempData={gra} />
-            {/* </div> */}
+            <div className="h-full bg-white artboard rounded-xl px-7">
+              <Title />
+              <h3 className="text-3xl font-bold ml-7">Temperatures (History)</h3>
+              {/* <div className="flex flex-row my-8 gap-7"> */}
+              <Chart tempData={gra} />
+              {/* </div> */}
+            </div>
 
+            :
 
-          </div>
+            <PredictionContainer data={allData} />
 
         }
       </div>
