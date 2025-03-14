@@ -8,6 +8,7 @@ import App2 from "./App2"
 import { useEffect, useState } from "react"
 import { data } from "autoprefixer"
 import PredictionContainer from "./components/PredictionContainer"
+import Logs from "./components/Logs"
 if (localStorage.getItem('auth') == null) {
   localStorage.setItem('auth', false);
 }
@@ -94,19 +95,29 @@ const App1 = () => {
               <a role="tab" className="tab tab-active">Controls</a>
               <a role="tab" className="tab" onClick={() => SetTab('graph')}>Graph</a>
               <a role="tab" className="tab" onClick={() => SetTab('prediction')}>Prediction</a>
+              <a role="tab" className="tab" onClick={() => SetTab('logs')}>Logs</a>
             </>
             : tab == 'graph' ?
               <>
                 <a role="tab" className="tab" onClick={() => SetTab('controls')}>Controls</a>
                 <a role="tab" className="tab tab-active">Graph</a>
                 <a role="tab" className="tab" onClick={() => SetTab('prediction')}>Prediction</a>
+                <a role="tab" className="tab" onClick={() => SetTab('logs')}>Logs</a>
               </>
-              :
-              <>
-                <a role="tab" className="tab" onClick={() => SetTab('controls')}>Controls</a>
-                <a role="tab" className="tab" onClick={() => SetTab('graph')}>Graph</a>
-                <a role="tab" className="tab tab-active">Prediction</a>
-              </>
+              : tab == 'prediction' ?
+                <>
+                  <a role="tab" className="tab" onClick={() => SetTab('controls')}>Controls</a>
+                  <a role="tab" className="tab" onClick={() => SetTab('graph')}>Graph</a>
+                  <a role="tab" className="tab tab-active">Prediction</a>
+                  <a role="tab" className="tab" onClick={() => SetTab('logs')}>Logs</a>
+                </>
+                :
+                <>
+                  <a role="tab" className="tab" onClick={() => SetTab('controls')}>Controls</a>
+                  <a role="tab" className="tab" onClick={() => SetTab('graph')}>Graph</a>
+                  <a role="tab" className="tab" onClick={() => SetTab('prediction')}>Prediction</a>
+                  <a role="tab" className="tab tab-active">Logs</a>
+                </>
           }
         </div>
 
@@ -133,9 +144,13 @@ const App1 = () => {
               {/* </div> */}
             </div>
 
-            :
+            : tab == "prediction" ?
 
-            <PredictionContainer data={allData} />
+              <PredictionContainer data={allData} />
+
+              :
+
+              <Logs data={allData} />
 
         }
       </div>
