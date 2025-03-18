@@ -1,6 +1,6 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-function PredictionChart({ data, predictionEnabled }) {
+function PredictionChart({ data, predictionEnabled, value }) {
     return (
         <LineChart width={400} height={200} data={data}>
             <CartesianGrid strokeDasharray="3 3" />
