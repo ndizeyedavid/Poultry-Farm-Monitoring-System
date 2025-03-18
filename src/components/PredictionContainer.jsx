@@ -10,7 +10,7 @@ const calculatePrediction = (data, field) => {
         , 0) / 4;
 
     const lastValue = lastFivePoints[lastFivePoints.length - 1][field];
-    const lastTimestamp = new Date(lastFivePoints[lastFivePoints.length - 1].timestamp);
+    const lastTimestamp = new Date(lastFivePoints[lastFivePoints.length - 1].added_date);
 
     return Array(3).fill().map((_, i) => {
         const predictionTime = new Date(lastTimestamp);
@@ -36,13 +36,13 @@ function PredictionContainer({ data }) {
     const transformData = (rawData, field, predictions) => {
         const current = rawData.map(d => ({
             id: d.id,
-            timestamp: formatTimeLabel(d.timestamp),
+            timestamp: formatTimeLabel(d.added_date),
             value: d[field]
         }));
 
         const predicted = predictions.map(p => ({
             ...p,
-            timestamp: formatTimeLabel(p.timestamp),
+            timestamp: formatTimeLabel(p.added_date),
             predicted: true
         }));
 
