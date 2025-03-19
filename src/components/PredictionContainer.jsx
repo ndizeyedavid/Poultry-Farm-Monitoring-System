@@ -17,7 +17,7 @@ const calculatePrediction = (data, field) => {
         predictionTime.setHours(predictionTime.getHours() + (i + 1));
 
         return {
-            id: data.length + i + 1,
+            id: i + 1,
             timestamp: predictionTime.toISOString(),
             value: Math.round((lastValue + (trend * (i + 1))) * 100) / 100
         };
